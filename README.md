@@ -3,6 +3,15 @@
 
 也可以当作模版来直接使用
 
+## 使用pymysql错误问题
+
+`venv/lib/python3.8/site-packages/django/db/backends/mysql/base.py`
+中的35,36行注释掉就好了
+
+`venv/lib/python3.8/site-packages/django/db/backends/mysql/operations.py`
+中的146行 把decode改为encode
+
+
 ## 初始化admin用户
 
 `python3 manage.py createsuperuser`

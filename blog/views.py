@@ -4,10 +4,21 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.viewsets import ModelViewSet
 from blog.serializers import *
+from django.db import connection
+
+cursor = connection.cursor()
 
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
+
+
+def page(request):
+    cursor.execute("select * from blog_article")
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+    return HttpResponse(rows)
 
 
 class ArticleInfoView(ModelViewSet):

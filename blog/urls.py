@@ -8,6 +8,7 @@ router.register('article', views.ArticleInfoView)  # 在路由器中注册视图
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('page', views.page, name='page'),
 ]
 
 urlpatterns += router.urls

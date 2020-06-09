@@ -73,8 +73,8 @@ pymysql.install_as_MySQLdb()
 
 4.迁移默认数据库
 ```
-python manage.py makemigrations
-python manage.py migrate
+python manage.py makemigrations # 将类转换成数据表结构
+python manage.py migrate # 根据上一句代码生成数据表
 ```
 
 5.反向生成model

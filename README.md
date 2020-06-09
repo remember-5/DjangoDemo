@@ -5,12 +5,32 @@
 
 ## 使用pymysql错误问题
 
+报错
+```
+File "/home/www/.local/share/virtualenvs/EduScore-UXZMOCwv/lib/python3.6/site-packages/django/db/backends/mysql/base.py", line 36, in <module>
+    raise ImproperlyConfigured('mysqlclient 1.3.13 or newer is required; you have %s.' % Database.__version__)
+django.core.exceptions.ImproperlyConfigured: mysqlclient 1.3.13 or newer is required; you have 0.9.3.
+```
+
 `venv/lib/python3.8/site-packages/django/db/backends/mysql/base.py`
 中的35,36行注释掉就好了
 
+如下：
+```
+#if version < (1, 3, 13):
+#    raise ImproperlyConfigured('mysqlclient 1.3.13 or newer is required; you have %s.' % Database.__version__)
+```
+---
+报错
+```
+AttributeError: 'str' object has no attribute 'decode'
+```
 `venv/lib/python3.8/site-packages/django/db/backends/mysql/operations.py`
 中的146行 把decode改为encode
-
+如下：
+```
+query = query.encode(errors='replace')
+```
 
 ## 初始化admin用户
 

@@ -101,3 +101,67 @@ from blog.models import BlogArticle
 
 admin.site.register(BlogArticle)
 ```
+
+
+## RESTFul风格接口
+GET：读取（Read）
+POST：新建（Create）
+PUT：更新（Update）
+PATCH：更新（Update），通常是部分更新
+DELETE：删除（Delete）
+
+Django中使用RESTFul
+
+安装模块：`pip install djangorestframework`
+
+配置和使用：
+ `settings`中：`INSTALL_APPS = [… , ’rest_framework’,]`
+
+`djangorestframework`的核心是序列化：
+
+在app中创建`serializers.py`文件，里面编写需要序列化的模型和模式。
+
+```python
+from rest_framework import serializers
+from blog.models import *
+
+
+# 定义序列化程序
+class ArticleSerializer(serializers.ModelSerializer):
+    '''
+    指定需要序列化的模型和字段
+    '''
+    class Meta:
+        model = BlogArticle  # 数据库表名
+        fields = '__all__'  # 所有的字段都要序列化模型格式:
+```
+
+`views.py`中应用类视图并继承`rest_framework`中的包
+
+```python
+from rest_framework.viewsets import ModelViewSet
+from blog.serializers import *
+
+class ArticleInfoView(ModelViewSet):
+    queryset = BlogArticle.objects.all()  # 获取查询结果集
+    serializer_class = ArticleSerializer  # 指定序列化器
+```
+
+`urls.py`中的路由可以用`rest_framework`中的`DefaultRouter`来指定路由集
+
+
+```python
+from django.urls import path
+from rest_framework.routers import DefaultRouter
+from . import views
+
+# 定义视图处理的路由器
+router = DefaultRouter()
+router.register('article', views.ArticleInfoView)  # 在路由器中注册视图集
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+
+urlpatterns += router.urls
+```

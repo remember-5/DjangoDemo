@@ -4,6 +4,7 @@ import json
 
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from blog.serializers import *
 from django.db import connection
@@ -12,6 +13,10 @@ cursor = connection.cursor()
 
 
 def index(request):
+    return render(request, 'index.html')
+
+
+def indexText(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
@@ -32,6 +37,7 @@ def page(request):
     items = json.loads(json.dumps(list(queryset), cls=DateEncoder))
     # return JsonResponse(items)
     return HttpResponse(items, content_type="application/json,charset=utf-8")
+
 
 class ArticleInfoView(ModelViewSet):
     queryset = BlogArticle.objects.all()  # 获取查询结果集
